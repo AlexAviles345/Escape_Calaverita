@@ -80,3 +80,7 @@ Desktop.ini
 
 # Keep Unity metadata together with every tracked asset.
 !/[Aa]ssets/**/*.meta
+
+# Unused local third-party audio pack.
+/[Aa]ssets/Free Pack/
+/[Aa]ssets/Free Pack.meta
