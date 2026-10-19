@@ -8,6 +8,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float rotationSpeed = 8f;
     [SerializeField, Range(0.5f, 1f)] private float hitboxScale = 0.78f;
 
+    [Header("Efectos")]
+    [SerializeField] private ParticleSystem deathExplosion;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField, Range(0f, 1f)] private float deathSoundVolume = 0.75f;
+
     private Rigidbody2D rb;
     private Collider2D playerCollider;
     private Camera mainCamera;
@@ -20,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
         mainCamera = Camera.main;
         rb.simulated = false;
+
+        if (deathExplosion != null)
+            deathExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private void ConfigureHitbox()
@@ -111,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-        CreateDeathExplosion();
+        PlayDeathEffects();
 
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
@@ -124,60 +132,23 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance?.GameOver();
     }
 
-    private void CreateDeathExplosion()
+    private void PlayDeathEffects()
     {
-        GameObject explosion = new GameObject("PlayerDeathExplosion");
-        explosion.transform.position = transform.position;
-
-        ParticleSystem particles = explosion.AddComponent<ParticleSystem>();
-        particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-        ParticleSystem.MainModule main = particles.main;
-        main.duration = 0.45f;
-        main.loop = false;
-        main.startLifetime = new ParticleSystem.MinMaxCurve(0.3f, 0.55f);
-        main.startSpeed = new ParticleSystem.MinMaxCurve(3f, 6f);
-        main.startSize = new ParticleSystem.MinMaxCurve(0.12f, 0.3f);
-        main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
-        main.startColor = new ParticleSystem.MinMaxGradient(
-            new Color(1f, 0.85f, 0.15f),
-            new Color(0.9f, 0.2f, 0.55f));
-        main.gravityModifier = 0.6f;
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.useUnscaledTime = true;
-        main.maxParticles = 24;
-        main.stopAction = ParticleSystemStopAction.Destroy;
-
-        ParticleSystem.EmissionModule emission = particles.emission;
-        emission.rateOverTime = 0f;
-        emission.SetBursts(new[]
+        if (deathExplosion != null)
         {
-            new ParticleSystem.Burst(0f, 20)
-        });
+            deathExplosion.gameObject.SetActive(true);
+            deathExplosion.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            deathExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            deathExplosion.Play(true);
+        }
 
-        ParticleSystem.ShapeModule shape = particles.shape;
-        shape.shapeType = ParticleSystemShapeType.Circle;
-        shape.radius = 0.18f;
-
-        ParticleSystem.ColorOverLifetimeModule colorOverLifetime = particles.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient fade = new Gradient();
-        fade.SetKeys(
-            new[]
-            {
-                new GradientColorKey(new Color(1f, 0.9f, 0.2f), 0f),
-                new GradientColorKey(new Color(0.65f, 0.12f, 0.75f), 1f)
-            },
-            new[]
-            {
-                new GradientAlphaKey(1f, 0f),
-                new GradientAlphaKey(0f, 1f)
-            });
-        colorOverLifetime.color = fade;
-
-        ParticleSystemRenderer particleRenderer = explosion.GetComponent<ParticleSystemRenderer>();
-        particleRenderer.sortingOrder = 10;
-
-        particles.Play();
+        if (deathSound != null)
+        {
+            Vector3 soundPosition = mainCamera != null
+                ? mainCamera.transform.position
+                : transform.position;
+            AudioSource.PlayClipAtPoint(deathSound, soundPosition, deathSoundVolume);
+        }
     }
+
 }
