@@ -12,8 +12,11 @@ public class GameManager : MonoBehaviour
     public int Score { get; private set; }
     public int BestScore { get; private set; }
 
+    [Header("Interfaz de inicio")]
+    [SerializeField] private GameObject startPanel;
+
     [Header("Interfaz de Game Over")]
-    [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text pointsText;
     [SerializeField] private TMP_Text recordText;
     [SerializeField] private Button restartButton;
@@ -37,13 +40,16 @@ public class GameManager : MonoBehaviour
         BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         IsGameStarted = startImmediatelyAfterReload;
         startImmediatelyAfterReload = false;
-        ConfigureGameOverCanvas();
+        ConfigureInterface();
     }
 
     public void StartGame()
     {
         if (IsGameStarted || IsGameOver) return;
         IsGameStarted = true;
+
+        if (startPanel != null)
+            startPanel.SetActive(false);
     }
 
     public void AddScore()
@@ -100,31 +106,13 @@ public class GameManager : MonoBehaviour
 
     private void OnGUI()
     {
-        if (IsGameOver) return;
+        if (!IsGameStarted || IsGameOver) return;
 
         float scale = Mathf.Clamp(Screen.height / 720f, 0.75f, 1.5f);
-
-        GUIStyle titleStyle = CreateCenteredStyle(Mathf.RoundToInt(42f * scale), FontStyle.Bold);
         GUIStyle scoreStyle = CreateCenteredStyle(Mathf.RoundToInt(52f * scale), FontStyle.Bold);
-        GUIStyle textStyle = CreateCenteredStyle(Mathf.RoundToInt(22f * scale), FontStyle.Bold);
-        GUIStyle smallStyle = CreateCenteredStyle(Mathf.RoundToInt(17f * scale), FontStyle.Normal);
 
-        if (IsGameStarted)
-        {
-            GUI.Label(new Rect(0f, 24f * scale, Screen.width, 70f * scale),
-                Score.ToString(), scoreStyle);
-            return;
-        }
-
-        if (!IsGameStarted)
-        {
-            GUI.Label(new Rect(0f, Screen.height * 0.12f, Screen.width, 70f * scale),
-                "CALAVERITA VOLADORA", titleStyle);
-            GUI.Label(new Rect(0f, Screen.height * 0.72f, Screen.width, 40f * scale),
-                "ESPACIO / CLIC / TOQUE PARA VOLAR", textStyle);
-            GUI.Label(new Rect(0f, Screen.height * 0.79f, Screen.width, 32f * scale),
-                "Atraviesa las lapidas sin tocarlas", smallStyle);
-        }
+        GUI.Label(new Rect(0f, 24f * scale, Screen.width, 70f * scale),
+            Score.ToString(), scoreStyle);
     }
 
     private static GUIStyle CreateCenteredStyle(int fontSize, FontStyle fontStyle)
@@ -139,7 +127,7 @@ public class GameManager : MonoBehaviour
         return style;
     }
 
-    private void ConfigureGameOverCanvas()
+    private void ConfigureInterface()
     {
         if (restartButton != null)
             restartButton.onClick.AddListener(RestartGame);
@@ -149,8 +137,11 @@ public class GameManager : MonoBehaviour
 
         SetGameOverButtonsInteractable(false);
 
-        if (gameOverCanvas != null)
-            gameOverCanvas.SetActive(false);
+        if (startPanel != null)
+            startPanel.SetActive(!IsGameStarted);
+
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(false);
     }
 
     private void ShowGameOverCanvas()
@@ -163,8 +154,8 @@ public class GameManager : MonoBehaviour
 
         SetGameOverButtonsInteractable(false);
 
-        if (gameOverCanvas != null)
-            gameOverCanvas.SetActive(true);
+        if (gameOverPanel != null)
+            gameOverPanel.SetActive(true);
     }
 
     private void SetGameOverButtonsInteractable(bool interactable)
