@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     [Header("Interfaz de inicio")]
     [SerializeField] private GameObject startPanel;
 
+    [Header("Interfaz durante la partida")]
+    [SerializeField] private GameObject hudPanel;
+    [SerializeField] private TMP_Text scoreText;
+
     [Header("Interfaz de Game Over")]
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private TMP_Text pointsText;
@@ -50,6 +54,8 @@ public class GameManager : MonoBehaviour
 
         if (startPanel != null)
             startPanel.SetActive(false);
+
+        SetHudVisible(true);
     }
 
     public void AddScore()
@@ -57,6 +63,8 @@ public class GameManager : MonoBehaviour
         if (!IsGameStarted || IsGameOver) return;
 
         Score++;
+        UpdateScoreText();
+
         if (Score <= BestScore) return;
 
         BestScore = Score;
@@ -70,6 +78,7 @@ public class GameManager : MonoBehaviour
 
         IsGameOver = true;
         gameOverTime = Time.unscaledTime;
+        SetHudVisible(false);
         ShowGameOverCanvas();
         Time.timeScale = 0f;
     }
@@ -104,29 +113,6 @@ public class GameManager : MonoBehaviour
         return keyboard || mouse || touch;
     }
 
-    private void OnGUI()
-    {
-        if (!IsGameStarted || IsGameOver) return;
-
-        float scale = Mathf.Clamp(Screen.height / 720f, 0.75f, 1.5f);
-        GUIStyle scoreStyle = CreateCenteredStyle(Mathf.RoundToInt(52f * scale), FontStyle.Bold);
-
-        GUI.Label(new Rect(0f, 24f * scale, Screen.width, 70f * scale),
-            Score.ToString(), scoreStyle);
-    }
-
-    private static GUIStyle CreateCenteredStyle(int fontSize, FontStyle fontStyle)
-    {
-        GUIStyle style = new GUIStyle(GUI.skin.label)
-        {
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = fontSize,
-            fontStyle = fontStyle
-        };
-        style.normal.textColor = new Color(1f, 0.82f, 0.25f);
-        return style;
-    }
-
     private void ConfigureInterface()
     {
         if (restartButton != null)
@@ -140,8 +126,23 @@ public class GameManager : MonoBehaviour
         if (startPanel != null)
             startPanel.SetActive(!IsGameStarted);
 
+        UpdateScoreText();
+        SetHudVisible(IsGameStarted);
+
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
+    }
+
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+            scoreText.text = Score.ToString();
+    }
+
+    private void SetHudVisible(bool visible)
+    {
+        if (hudPanel != null)
+            hudPanel.SetActive(visible);
     }
 
     private void ShowGameOverCanvas()
