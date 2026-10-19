@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0566d408bfb7bed4590c43dd5b38e6a8
+guid: ee322dcb70bf7a24ea51630b39f8cfbc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5636741097334995915
-    second: lapida_1_0
+      213: -3735455614560948350
+    second: lapida2_superior_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
@@ -56,7 +56,9 @@ TextureImporter:
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
+  spriteTessellationMethod: 0
   spriteTessellationDetail: -1
+  spriteGeometrySubdivision: -1
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
@@ -75,7 +77,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,23 +128,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lapida_1_0
+      name: lapida2_superior_0
       rect:
         serializedVersion: 2
-        x: 14
+        x: 0
         y: 0
-        width: 535
-        height: 1024
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        width: 218
+        height: 649
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bcb7f7dc92ab93e40800000000000000
-      internalID: 5636741097334995915
+      spriteID: 28f2bdbe8eef82cc0800000000000000
+      internalID: -3735455614560948350
       vertices: []
       indices: 
       edges: []
@@ -151,7 +153,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5033b596012194644bd4966367baa8db
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +163,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      lapida_1_0: 5636741097334995915
+      lapida2_superior_0: -3735455614560948350
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

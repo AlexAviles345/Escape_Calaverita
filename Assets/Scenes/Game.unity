@@ -4463,11 +4463,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LapidaSpawner
   lapidaPrefabs:
-  - {fileID: 1046191962903396861, guid: e082d14fbaf7d6c4ab66da42c671453d, type: 3}
-  - {fileID: 6724089180722805319, guid: b8cfa9568ead59c44a7ef51bb7d2c65a, type: 3}
+  - {fileID: 8593458930350613307, guid: 859cbc15be830c24d841019b701c13f7, type: 3}
+  - {fileID: 6610052861550371076, guid: d18a8a332a9d11048a4c93a533a9d41f, type: 3}
+  - {fileID: 6610052861550371076, guid: dfd1866e162628047ad27b9d5af2c9a7, type: 3}
+  - {fileID: 6610052861550371076, guid: 9b2156c2a501e1c4a828831e68ed036a, type: 3}
+  - {fileID: 8593458930350613307, guid: 11812ae0f3c904740a6ce79d1190ebfb, type: 3}
+  - {fileID: 8593458930350613307, guid: 1b1dbd71d3020ae41875537ce71794da, type: 3}
+  - {fileID: 8593458930350613307, guid: 3c758f79de6d7d84daa050fbe999bc27, type: 3}
+  - {fileID: 8593458930350613307, guid: 8a86d290d18d9e345a55088a3e8c716e, type: 3}
+  - {fileID: 8593458930350613307, guid: 985985515275bb44e98f105f80873b4e, type: 3}
+  - {fileID: 8593458930350613307, guid: cd65662d641bee2488c30c7bb856e557, type: 3}
+  - {fileID: 8593458930350613307, guid: 292fb1948cdd78841b23a68b51359fcc, type: 3}
+  - {fileID: 8593458930350613307, guid: ff6512e73a4c7f6429ef55e5a7731f1f, type: 3}
+  - {fileID: 8593458930350613307, guid: cbfede5cb94e915459ea78dfc84dd264, type: 3}
+  - {fileID: 8593458930350613307, guid: 960c8ed94632e534094c290914547ba2, type: 3}
+  - {fileID: 8593458930350613307, guid: 0e278ab89b27bd24cb509e232ff19907, type: 3}
+  - {fileID: 8593458930350613307, guid: 96a509e15350f184b90ba7222896c86c, type: 3}
+  - {fileID: 8593458930350613307, guid: 113140999edd16d49871bee754a1b40d, type: 3}
+  - {fileID: 8593458930350613307, guid: 5fa3071c23615b64bb31833ef8d1c4b3, type: 3}
+  - {fileID: 8593458930350613307, guid: f48b690cec660aa439075ada6495fa2c, type: 3}
+  - {fileID: 8593458930350613307, guid: 10149d9cc4fc9d144ae897981712a66a, type: 3}
+  - {fileID: 8593458930350613307, guid: d94e8edf56857bb46b1208c8deb9c626, type: 3}
+  - {fileID: 8593458930350613307, guid: 08161b41fc9c62c47a969b47a46db339, type: 3}
   spawnPoint: {fileID: 948209813}
-  minGapY: -10
-  maxGapY: -5
+  minGapY: -1.25
+  maxGapY: 1.25
   minScale: 0.94
   maxScale: 1.02
   minSpacing: 5
