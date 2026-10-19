@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4529518984635477086}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.08, y: 5.025, z: 0}
+  m_LocalPosition: {x: 1.08, y: 5.3311694, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -166,7 +166,7 @@ Transform:
   m_GameObject: {fileID: 8034898723342795669}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.03, y: -5.5, z: 0}
+  m_LocalPosition: {x: 1.03, y: -4.773178, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -353,6 +353,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lapida
   gapCenterLocal: 0
-  gapHeightLocal: 3.2
+  gapHeightLocal: 3.6
   colliderWidth: 0.72
   openingColliderWidth: 0.44

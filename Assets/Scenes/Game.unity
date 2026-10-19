@@ -4488,8 +4488,8 @@ MonoBehaviour:
   spawnPoint: {fileID: 948209813}
   minGapY: -1.25
   maxGapY: 1.25
-  minScale: 0.94
-  maxScale: 1.02
+  minScale: 1
+  maxScale: 1
   minSpacing: 5
   maxSpacing: 6.5
   startSpeed: 3
