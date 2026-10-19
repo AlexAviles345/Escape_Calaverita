@@ -1,4 +1,4 @@
-# Calaverita Voladora
+# Escape Calaverita
 
 Juego 2D inspirado en la mecánica de Flappy Bird, ambientado en Día de Muertos.
 
@@ -12,7 +12,7 @@ Juego 2D inspirado en la mecánica de Flappy Bird, ambientado en Día de Muertos
 
 ```bash
 git clone <URL_DEL_REPOSITORIO>
-cd "Juego calaverita"
+cd "escape-calaverita"
 git lfs pull
 ```
 
