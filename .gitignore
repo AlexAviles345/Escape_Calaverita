@@ -1,0 +1,82 @@
+# Unity generated directories
+.utmp/
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Generated caches and test data
+/ServerData/
+/UIElementsSchema/
+/[Aa]ssets/[Ss]ceneDependencyCache*
+/[Aa]ssets/[Aa]ddressables_[Tt]emp*/
+/[Aa]ssets/[Uu]nity.[Vv]isual[Ss]cripting.[Gg]enerated/
+/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+/[Aa]ssets/[Ss]treamingAssets/aa*
+/[Aa]ssets/[Aa]ddressableAssetsData/link.xml*
+/[Aa]ssets/[Aa]ddressableAssetsData/*/*.bin*
+
+# IDE and editor generated files
+/.vs/
+/.vscode/
+/.idea/
+/.fleet/
+/.gradle/
+/ExportedObj/
+/.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.DotSettings.user
+
+# Generated metadata for ignored IDE files
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Logs and crash reports
+*.log
+sysinfo.txt
+mono_crash.*
+
+# Builds and distributable packages
+*.apk
+*.aab
+*.app
+*.unitypackage
+*.unitypackage.meta
+crashlytics-build.properties
+
+# Blender backups
+*.blend1
+*.blend1.meta
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Merge and temporary files
+*.orig
+*.orig.meta
+*~
+
+# Keep Unity metadata together with every tracked asset.
+!/[Aa]ssets/**/*.meta
