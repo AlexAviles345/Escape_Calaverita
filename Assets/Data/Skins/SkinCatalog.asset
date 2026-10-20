@@ -14,4 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SkinCatalog
   skins:
   - displayName: CALAVERITA CLASICA
-    sprite: {fileID: -1621956885068938309, guid: 0de15bba03ea4ea428d80a657b8a33ba, type: 3}
+    sprite: {fileID: 21300000, guid: 0de15bba03ea4ea428d80a657b8a33ba, type: 3}
+  - displayName: "CALAVERITA DE CEMPAS\xDACHIL"
+    sprite: {fileID: 21300000, guid: 739b55704c146c947aa5a4e1d78563ed, type: 3}
+  - displayName: CALAVERITA NOCTURNA
+    sprite: {fileID: 21300000, guid: a47b27ca4f6c78748893c616fd285349, type: 3}
+  - displayName: CALAVERITA MARIACHI
+    sprite: {fileID: 21300000, guid: a55a4234b155f7b49921779c8925be2c, type: 3}
+  - displayName: CALAVERITA LUCHADORA
+    sprite: {fileID: 21300000, guid: 15098c58036e501459de7126b95eeaf1, type: 3}
+  - displayName: CALAVERITA AZTECA
+    sprite: {fileID: 21300000, guid: 3b316fca11545a241a8c891fc82e1239, type: 3}
+  - displayName: CALAVERITA EMBRUJADA
+    sprite: {fileID: 21300000, guid: 35f431b49b7e7e7439e6c807621b4c77, type: 3}
+  - displayName: CALAVERITA DULCE
+    sprite: {fileID: 21300000, guid: 2c346136cc48ef249b5bd08928104e11, type: 3}
+  - displayName: CALAVERITA REVOLUCIONARIA
+    sprite: {fileID: 21300000, guid: cd4de911010b4184e9f28b61136adede, type: 3}
+  - displayName: CALAVERITA DE HIELO
+    sprite: {fileID: 21300000, guid: 10857ed1b55282a4481b54280f55e6b1, type: 3}
+  - displayName: CALAVERITA CATRINA
+    sprite: {fileID: 21300000, guid: ac0f39e83abe2fa409842a05e658439c, type: 3}

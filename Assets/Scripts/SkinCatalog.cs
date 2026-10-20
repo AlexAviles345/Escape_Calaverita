@@ -30,6 +30,23 @@ public class SkinCatalog : ScriptableObject
         return skins[Mathf.Clamp(index, 0, Count - 1)];
     }
 
+    public float GetScaleRelativeToFirstSkin(int index)
+    {
+        Sprite referenceSprite = GetSkin(0)?.Sprite;
+        Sprite selectedSprite = GetSkin(index)?.Sprite;
+
+        if (referenceSprite == null || selectedSprite == null)
+            return 1f;
+
+        float referenceWidth = referenceSprite.bounds.size.x;
+        float selectedWidth = selectedSprite.bounds.size.x;
+
+        if (referenceWidth <= Mathf.Epsilon || selectedWidth <= Mathf.Epsilon)
+            return 1f;
+
+        return referenceWidth / selectedWidth;
+    }
+
     public int ClampIndex(int index)
     {
         return Count == 0 ? 0 : Mathf.Clamp(index, 0, Count - 1);
