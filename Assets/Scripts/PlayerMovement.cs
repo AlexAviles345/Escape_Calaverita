@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D playerCollider;
+    private SpriteRenderer playerVisual;
     private Camera mainCamera;
     private bool isDead;
 
@@ -23,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         ConfigureHitbox();
         playerCollider = GetComponent<Collider2D>();
+        playerVisual = GetComponentInChildren<SpriteRenderer>();
         mainCamera = Camera.main;
         rb.simulated = false;
 
@@ -121,9 +123,8 @@ public class PlayerMovement : MonoBehaviour
 
         PlayDeathEffects();
 
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-            spriteRenderer.enabled = false;
+        if (playerVisual != null)
+            playerVisual.enabled = false;
 
         if (playerCollider != null)
             playerCollider.enabled = false;
