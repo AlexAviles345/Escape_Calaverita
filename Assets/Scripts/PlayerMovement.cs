@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         GameManager gameManager = GameManager.Instance;
-        if (gameManager == null || gameManager.IsGameOver) return;
+        if (gameManager == null || gameManager.IsGameOver || gameManager.IsPaused) return;
 
         if (GameManager.WasActionPressed())
         {
@@ -94,13 +94,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Obstacle"))
+        if (GameManager.Instance != null &&
+            !GameManager.Instance.IsPaused &&
+            other.CompareTag("Obstacle"))
             Die();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.collider.CompareTag("Obstacle"))
+        if (GameManager.Instance != null &&
+            !GameManager.Instance.IsPaused &&
+            other.collider.CompareTag("Obstacle"))
             Die();
     }
 

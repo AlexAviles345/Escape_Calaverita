@@ -35,7 +35,8 @@ public class LapidaSpawner : MonoBehaviour
     {
         if (GameManager.Instance == null ||
             !GameManager.Instance.IsGameStarted ||
-            GameManager.Instance.IsGameOver)
+            GameManager.Instance.IsGameOver ||
+            GameManager.Instance.IsPaused)
             return;
 
         Lapida.Speed = Mathf.MoveTowards(

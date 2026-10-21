@@ -6,7 +6,7 @@
 
 **Escape Calaverita** es un juego 2D inspirado en *Flappy Bird*. El jugador controla una calaverita que debe atravesar huecos entre lápidas que avanzan de derecha a izquierda.
 
-Incluye un menú, selector con 11 skins persistentes, pantalla de espera, HUD, Game Over, 22 combinaciones de obstáculos, dificultad progresiva, récord persistente, entrada para teclado/ratón/toque, música y efectos de muerte.
+Incluye un menú, selector con 11 skins persistentes, pantalla de espera, HUD, pausa, Game Over, 22 combinaciones de obstáculos, dificultad progresiva, récord persistente, entrada para teclado/ratón/toque, música y efectos de muerte.
 
 ## 2. Requisitos y configuración
 
@@ -59,10 +59,11 @@ Las dependencias se resuelven con referencias del Inspector, `GameManager.Instan
 7. `PlayerMovement.Awake()` reduce la hitbox, desactiva temporalmente la física y limpia partículas.
 8. `LapidaSpawner.Start()` crea un obstáculo inmediato, quieto hasta comenzar.
 9. La primera acción oculta `StartPanel`, muestra el HUD, activa la física y salta.
-10. Los obstáculos avanzan; al pasar la X del jugador suman un punto.
-11. Colisionar o salir verticalmente de la cámara provoca la muerte.
-12. Se ocultan sprite/collider, se reproducen efectos, aparece Game Over y el tiempo se pausa.
-13. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga e inicia directamente; Menú vuelve a `Menu`.
+10. Escape, `P` o Start del mando abren/cierra `PausePanel`; Reanudar continúa y Menú vuelve a la escena principal.
+11. Los obstáculos avanzan; al pasar la X del jugador suman un punto.
+12. Colisionar o salir verticalmente de la cámara provoca la muerte.
+13. Se ocultan sprite/collider, se reproducen efectos, aparece Game Over y el tiempo se pausa.
+14. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga e inicia directamente; Menú vuelve a `Menu`.
 
 ## 5. Escenas
 
@@ -124,6 +125,12 @@ Game
 ├── Canvas
 │   ├── StartPanel/{TituloJugar, Indicacion1, Indicacion2}
 │   ├── HUDPanel/Puntos
+│   ├── PausePanel [inactivo]
+│   │   ├── TituloPausa
+│   │   ├── Puntos
+│   │   ├── Record
+│   │   ├── Boton_Reanudar
+│   │   └── Boton_Menu
 │   └── GameOverPanel
 │       ├── TituloGameOver
 │       ├── Puntos
@@ -148,7 +155,7 @@ Game
 
 El Rigidbody del jugador es dinámico, Gravity Scale `2.5` y colisión continua. El PolygonCollider es trigger y se reduce a 78 % en `Awake`.
 
-El Canvas es Screen Space Overlay, pero está en **Constant Pixel Size**, distinto del menú. `StartPanel` y `HUDPanel` tienen fondo transparente. `GameOverPanel` usa negro con alpha `0.39215687`, oscureciendo aproximadamente 39 %. Aunque StartPanel está guardado inactivo, `GameManager` lo activa al iniciar normalmente. Los botones finales se conectan desde código.
+El Canvas es Screen Space Overlay, pero está en **Constant Pixel Size**, distinto del menú. `StartPanel` y `HUDPanel` tienen fondo transparente. `PausePanel` y `GameOverPanel` usan negro con alpha `0.39215687`, oscureciendo aproximadamente 39 %. El overlay de pausa bloquea raycasts y empieza inactivo. Aunque StartPanel está guardado inactivo, `GameManager` lo activa al iniciar normalmente. Los botones se conectan desde código.
 
 ### 5.3 Escenas auxiliares
 
@@ -162,15 +169,17 @@ El Canvas es Screen Space Overlay, pero está en **Constant Pixel Size**, distin
 
 Administra estado, UI, puntos, récord y escenas.
 
-**Estado público:** `Instance`, `IsGameStarted`, `IsGameOver`, `Score` y `BestScore`; todos salvo el singleton tienen setter privado.
+**Estado público:** `Instance`, `IsGameStarted`, `IsGameOver`, `IsPaused`, `Score` y `BestScore`; todos salvo el singleton tienen setter privado.
 
-**Referencias:** `startPanel`, `hudPanel`, `scoreText`, `gameOverPanel`, `pointsText`, `recordText`, `restartButton` y `menuButton`.
+**Referencias:** inicio/HUD/Game Over y, para pausa, `pausePanel`, `pausePointsText`, `pauseRecordText`, un `pauseButton` opcional, `resumeButton` y `pauseMenuButton`.
 
-**`Awake()`** destruye duplicados, asigna el singleton, fuerza `Time.timeScale = 1`, lee `BestScore`, consume `startImmediatelyAfterReload` y configura la interfaz. La bandera estática sobrevive a la recarga de escena y hace que Reintentar omita la pantalla inicial.
+**`Awake()`** destruye duplicados, asigna el singleton, fuerza `Time.timeScale = 1`, reactiva el audio, lee `BestScore`, consume `startImmediatelyAfterReload` y configura la interfaz. La bandera estática sobrevive a la recarga de escena y hace que Reintentar omita la pantalla inicial.
 
 **`StartGame()`** ignora estados inválidos; marca el inicio, oculta StartPanel y muestra HUD.
 
-**`WasActionPressed()`** acepta espacio, flecha arriba, `W`, clic izquierdo o toque primario; valida que cada dispositivo exista.
+**`WasActionPressed()`** acepta espacio, flecha arriba, `W`, clic izquierdo o toque primario; valida que cada dispositivo exista. Para ratón y toque, hace un raycast de UI e ignora la acción únicamente cuando el puntero está sobre un `Button`; los paneles transparentes, textos e imágenes decorativas no bloquean el vuelo.
+
+**Pausa:** `WasPausePressed()` acepta Escape, `P` y Start del mando. `PauseGame()` solo funciona durante una partida activa: establece `IsPaused`, oculta HUD, copia `Score` y `BestScore` a los textos Puntos y Record del PausePanel, muestra el panel, pausa el audio y pone `Time.timeScale=0`. `ResumeGame()` invierte esas operaciones. Reanudar y Menú están conectados dinámicamente; `pauseButton` queda disponible para añadir un botón táctil al HUD.
 
 **`AddScore()`** solo opera jugando: aumenta Score, actualiza el texto y, si hay récord, escribe `BestScore` en PlayerPrefs y guarda inmediatamente.
 
@@ -194,7 +203,7 @@ Controla física, salto, inclinación, límites, hitbox y muerte.
 
 `Awake()` obtiene componentes, multiplica todos los puntos del PolygonCollider por `0.78`, almacena cámara/renderer, desactiva `rb.simulated` y limpia la explosión. `Start()` detecta el reintento directo, activa física y salta.
 
-En `Update()`, una acción inicia si hace falta y llama `Jump()`. El salto **reemplaza** la velocidad Y por `6`; no suma fuerza. La caída se limita con `max(velocityY, -9)`. La velocidad vertical se remapea de `[-9,6]` a una rotación `[-75°,30°]`, interpolada mediante `rotationSpeed`.
+En `Update()`, el script termina inmediatamente si existe pausa, evitando saltos mientras el panel está abierto. En juego, una acción inicia si hace falta y llama `Jump()`. El salto **reemplaza** la velocidad Y por `6`; no suma fuerza. La caída se limita con `max(velocityY, -9)`. La velocidad vertical se remapea de `[-9,6]` a una rotación `[-75°,30°]`, interpolada mediante `rotationSpeed`.
 
 `Die()` puede venir de trigger, colisión sólida o límites verticales. `isDead` evita repetición; reproduce efectos, oculta el hijo visual, desactiva collider, detiene velocidad y llama `GameManager.GameOver()`.
 
@@ -327,6 +336,8 @@ Balance actual: velocidad `3→5`, incremento `0.035/s`, separación `5–6.5`, 
 | Contexto | Entrada |
 | --- | --- |
 | Comenzar/volar | Espacio, arriba, `W`, clic izquierdo, toque primario. |
+| Pausar/reanudar | Escape, `P` o botón Start del mando. |
+| Reanudar desde UI | `Boton_Reanudar`. |
 | Reintentar tras 0.5 s | Espacio, Enter, Enter numérico. |
 | UI | InputSystemUIInputModule. |
 
@@ -449,10 +460,13 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 3. Elegir una y verificar persistencia/tamaño en Game.
 4. Confirmar que no cae antes de la primera acción.
 5. Probar teclado, clic y toque.
-6. Atravesar una lápida: exactamente un punto.
-7. Chocar con superior, inferior, Ground y límites.
-8. Revisar explosión, sonido, overlay, puntos y récord.
-9. Confirmar espera de 0.5 s de botones.
-10. Reintentar: inicio directo sin StartPanel.
-11. Volver al menú: skin y récord persisten.
-12. Ejecutar build desde Menu y verificar audio, UI y referencias.
+6. Pausar con Escape/P/Start: mundo, puntuación, generación y música deben detenerse; PausePanel debe mostrar los puntos y el récord correctos.
+7. Reanudar con teclado y con `Boton_Reanudar`, sin salto accidental.
+8. Usar Menú desde PausePanel y confirmar que el tiempo/audio se restauran.
+9. Atravesar una lápida: exactamente un punto.
+10. Chocar con superior, inferior, Ground y límites.
+11. Revisar explosión, sonido, overlay, puntos y récord.
+12. Confirmar espera de 0.5 s de botones.
+13. Reintentar: inicio directo sin StartPanel.
+14. Volver al menú: skin y récord persisten.
+15. Ejecutar build desde Menu y verificar audio, UI y referencias.

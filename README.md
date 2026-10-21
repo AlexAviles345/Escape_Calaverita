@@ -22,6 +22,8 @@ Después, abre la carpeta desde Unity Hub. La primera escena del build es
 ## Controles
 
 - Espacio, flecha arriba, `W`, clic izquierdo o toque: volar.
+- Escape, `P` o Start del mando: pausar o reanudar.
+- Reanudar y Menú también están disponibles en el panel de pausa.
 - Reintentar: inicia una partida nueva inmediatamente.
 - Menú: regresa a la escena principal.
 
