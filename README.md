@@ -17,7 +17,16 @@ git lfs pull
 ```
 
 Después, abre la carpeta desde Unity Hub. La primera escena del build es
-`Assets/Scenes/Menu.unity`.
+`Assets/_Project/Scenes/Production/Menu.unity`.
+
+## Organización del proyecto
+
+Los recursos propios del juego están dentro de `Assets/_Project`, separados por
+arte, audio, datos, fuentes, prefabs, escenas y scripts. Los recursos administrados
+por Unity, como `Settings` y `TextMesh Pro`, permanecen fuera de esa carpeta.
+
+Consulta [Organización de Assets](.docs/ORGANIZACION_ASSETS.md) para conocer la
+estructura completa, las convenciones y el procedimiento seguro para mover assets.
 
 ## Controles
 

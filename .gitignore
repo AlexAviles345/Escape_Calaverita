@@ -84,3 +84,7 @@ Desktop.ini
 # Unused local third-party audio pack.
 /[Aa]ssets/Free Pack/
 /[Aa]ssets/Free Pack.meta
+
+# Unity scene recovery files are local and temporary.
+/[Aa]ssets/_Recovery/
+/[Aa]ssets/_Recovery.meta

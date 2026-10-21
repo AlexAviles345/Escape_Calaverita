@@ -1,6 +1,6 @@
 # Documentación técnica de Escape Calaverita
 
-> Estado documentado: 20 de octubre de 2026. Esta guía describe el contenido y las referencias serializadas actuales del proyecto.
+> Estado documentado: 21 de octubre de 2026. Esta guía describe el contenido y las referencias serializadas actuales del proyecto.
 
 ## 1. Resumen
 
@@ -20,7 +20,7 @@ Incluye un menú, selector con 11 skins persistentes, pantalla de espera, HUD, p
 | Resolución predeterminada | `1920 × 1080` |
 | Color | Linear |
 | Producto | `Escape Calaverita`, versión `1.0` |
-| Primera escena | `Assets/Scenes/Menu.unity` |
+| Primera escena | `Assets/_Project/Scenes/Production/Menu.unity` |
 
 Para abrirlo: clonar, ejecutar `git lfs pull`, abrir la raíz con Unity Hub y esperar la restauración de paquetes. Las carpetas `Library`, `Temp`, `Logs`, `UserSettings`, `obj` y `Builds` son locales y están ignoradas.
 
@@ -67,7 +67,7 @@ Las dependencias se resuelven con referencias del Inspector, `GameManager.Instan
 
 ## 5. Escenas
 
-### 5.1 `Assets/Scenes/Menu.unity`
+### 5.1 `Assets/_Project/Scenes/Production/Menu.unity`
 
 Escena 0 y primera del build.
 
@@ -106,7 +106,7 @@ Menu
 
 `BotonJugar` tiene una llamada persistente a `MainMenu.Play()`. Skins/Volver y Anterior/Siguiente se conectan desde código y se desconectan en `OnDestroy()`.
 
-### 5.2 `Assets/Scenes/Game.unity`
+### 5.2 `Assets/_Project/Scenes/Production/Game.unity`
 
 Escena 1 y núcleo jugable.
 
@@ -157,11 +157,9 @@ El Rigidbody del jugador es dinámico, Gravity Scale `2.5` y colisión continua.
 
 El Canvas es Screen Space Overlay, pero está en **Constant Pixel Size**, distinto del menú. `StartPanel` y `HUDPanel` tienen fondo transparente. `PausePanel` y `GameOverPanel` usan negro con alpha `0.39215687`, oscureciendo aproximadamente 39 %. El overlay de pausa bloquea raycasts y empieza inactivo. Aunque StartPanel está guardado inactivo, `GameManager` lo activa al iniciar normalmente. Los botones se conectan desde código.
 
-### 5.3 Escenas auxiliares
+### 5.3 Plantilla de escena
 
-- `Assets/Scenes/SampleScene.unity`: cámara, Global Light 2D, Player y Lapida de prueba. No está en el build.
-- `Assets/_Recovery/0.unity`: recuperación del editor; no es producción.
-- `Assets/Settings/Scenes/URP2DSceneTemplate.unity`: plantilla URP; no está en el build.
+`Assets/Settings/Scenes/URP2DSceneTemplate.unity` es la plantilla URP 2D y no forma parte del build. Las escenas de prueba y recuperación fueron eliminadas durante la reorganización de assets.
 
 ## 6. Scripts en detalle
 
@@ -293,7 +291,7 @@ Localiza el SpriteRenderer hijo si falta la referencia, conserva su escala origi
 | 9 | CALAVERITA DE HIELO | `calaverita_hielo.png` | 475×417 |
 | 10 | CALAVERITA CATRINA | `calaverita_catrina.png` | 514×442 |
 
-Están en `Assets/Material/Sprites/Skins`, Sprite Single, 100 PPU y filtro Point. Para agregar otra: importar PNG transparente, configurar igual, aumentar el arreglo de `SkinCatalog.asset`, llenar nombre/sprite y conservar la clásica en índice 0 si debe seguir siendo referencia.
+Están en `Assets/_Project/Art/Characters/Skins`, Sprite Single, 100 PPU y filtro Point. Para agregar otra: importar PNG transparente, configurar igual, aumentar el arreglo de `SkinCatalog.asset`, llenar nombre/sprite y conservar la clásica en índice 0 si debe seguir siendo referencia.
 
 ## 8. Obstáculos y prefabs
 
@@ -318,7 +316,7 @@ El spawner registra:
 
 `Completa` combina el mismo estilo. `GenericaAbajo` usa estilo decorado arriba y 00 abajo. `GenericaArriba` usa 00 arriba y estilo decorado abajo. Cada una tiene la misma probabilidad.
 
-`Assets/Prefabs/Lapida.prefab` y `Lapida Variant.prefab` son el sistema antiguo y no están en el arreglo actual.
+Los prefabs vigentes están en `Assets/_Project/Prefabs/Gameplay/Lapidas`. Los dos prefabs del sistema antiguo fueron eliminados después de verificar que solo aparecían en la escena de recuperación.
 
 ## 9. Puntuación, dificultad y persistencia
 
@@ -367,38 +365,41 @@ No hay music manager persistente; cada escena tiene su AudioSource.
 
 ## 13. Assets visuales y fuentes
 
-- `fondo.jpg`: fondo común, filtrado bilinear.
-- `titulo_calavera.png`, `titulo_jugar.png`, `titulo_game_over.png`: títulos.
-- `boton_jugar.png`, `boton_cambiar_skin.png`, `boton_reintentar.png`, `boton_menu.png`, `boton_avanzar.png`: UI.
-- `skin_preview.png`: marco del selector.
-- `herencia.jpg`: existe, pero no está referenciado en escenas de producción.
-- `lapidas/`: ocho pares superior/inferior, Sprite Single, 100 PPU, Point.
-- `Fonts/`: Pixelify Sans Medium/Regular y atlas SDF.
+- `Art/Backgrounds/fondo.jpg`: fondo común, filtrado bilinear.
+- `Art/UI/Titles/`: títulos de menú, inicio, pausa y Game Over.
+- `Art/UI/Buttons/`: imágenes de los botones del juego.
+- `Art/UI/Frames/skin_preview.png`: marco del selector.
+- `Art/Obstacles/Lapidas/`: ocho pares superior/inferior, Sprite Single, 100 PPU, Point.
+- `Fonts/PixelifySans/`: Pixelify Sans Medium/Regular y atlas SDF.
 - `TextMesh Pro/`: recursos predeterminados, Liberation Sans, shaders, materiales y reglas de texto.
 
 ## 14. Estructura de carpetas
 
 ```text
 Assets/
-├── _Recovery/                 Recuperación de Unity
-├── Data/Skins/                SkinCatalog.asset
-├── Fonts/                     Pixelify Sans y atlas TMP
-├── Material/Sprites/
-│   ├── Skins/                 11 skins
-│   ├── lapidas/               8 pares de obstáculos
-│   └── fondo, títulos y UI
-├── Music/                     2 loops y 1 impacto
-├── Prefabs/Lapidas/           22 combinaciones modernas
-├── Scenes/                    Menu, Game, SampleScene
-├── Scripts/                   8 scripts propios
+├── _Project/
+│   ├── Art/
+│   │   ├── Backgrounds/       Fondo del juego
+│   │   ├── Characters/Skins/  11 skins
+│   │   ├── Obstacles/Lapidas/ 8 pares de obstáculos
+│   │   └── UI/                Buttons, Frames y Titles
+│   ├── Audio/                 Music y SFX
+│   ├── Data/Skins/            SkinCatalog.asset
+│   ├── Fonts/PixelifySans/    Fuentes y atlas TMP propio
+│   ├── Prefabs/Gameplay/      22 prefabs de lápidas
+│   ├── Scenes/Production/     Menu y Game
+│   └── Scripts/
+│       ├── Core/              GameManager
+│       ├── Data/              SkinCatalog
+│       ├── Gameplay/          Player y Obstacles
+│       └── UI/                MainMenu y SkinSelector
 ├── Settings/                  URP, Renderer2D, Input y plantillas
-├── TextMesh Pro/              Recursos TMP
-└── Welcome/                   Recursos de bienvenida de la plantilla
+└── TextMesh Pro/              Recursos TMP
 Packages/                      Manifest y lock
 ProjectSettings/               Configuración serializada
 ```
 
-Todo asset debe moverse con su `.meta`; el GUID preserva referencias.
+La política completa de ubicación y movimiento está en `.docs/ORGANIZACION_ASSETS.md`. Todo asset debe moverse con su `.meta`; el GUID preserva referencias.
 
 ## 15. Build, renderizado y paquetes
 
@@ -410,13 +411,13 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 
 ## 16. Git y LFS
 
-`.gitattributes` mantiene como texto scripts, escenas, prefabs, YAML y metadatos. Imágenes, audio, fuentes, modelos y video pasan por Git LFS. Ejecutar `git lfs install` por equipo y `git lfs pull` tras clonar. Nunca separar un asset de su `.meta`.
+`.gitattributes` mantiene como texto scripts, escenas, prefabs, YAML y metadatos. Imágenes, audio, fuentes, modelos y video pasan por Git LFS. Ejecutar `git lfs install` por equipo y `git lfs pull` tras clonar. Nunca separar un asset de su `.meta`. `.gitignore` excluye las recuperaciones temporales `Assets/_Recovery` para evitar que regresen al historial.
 
 ## 17. Extender el proyecto
 
 ### Skin nueva
 
-1. PNG transparente en `Assets/Material/Sprites/Skins`.
+1. PNG transparente en `Assets/_Project/Art/Characters/Skins`.
 2. Sprite Single, Point, alpha, sin compresión.
 3. Aumentar `SkinCatalog.asset/Skins`.
 4. Completar nombre y sprite.
@@ -425,8 +426,8 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 
 ### Lápida nueva
 
-1. Importar superior/inferior en `lapidas`, 100 PPU, Point y alpha.
-2. Duplicar prefab moderno.
+1. Importar superior/inferior en `Assets/_Project/Art/Obstacles/Lapidas`, 100 PPU, Point y alpha.
+2. Duplicar un prefab de `Assets/_Project/Prefabs/Gameplay/Lapidas`.
 3. Sustituir sprites y ajustar posiciones.
 4. Ajustar ambos BoxCollider2D sin invadir el hueco.
 5. Conservar tag, Rigidbody cinemático y `Lapida` en raíz.
@@ -450,7 +451,7 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 - `SpawnPoint.y` no controla altura; la Y viene del rango del spawner.
 - `SpawnPoint.x` puede limitarse a `cameraRight+1.5`.
 - Menu y Game usan CanvasScaler distintos.
-- SampleScene, Recovery, GroundPoint, `herencia.jpg` y prefabs antiguos no participan en el flujo principal.
+- `GroundPoint` permanece en Game por compatibilidad, aunque ningún script lo utiliza actualmente.
 - `projectName` interno puede seguir como `Juego calaverita`; `productName` compilado es `Escape Calaverita`.
 
 ## 19. Checklist de prueba
