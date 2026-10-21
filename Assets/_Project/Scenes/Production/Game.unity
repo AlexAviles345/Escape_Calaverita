@@ -5152,6 +5152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789873804}
   - component: {fileID: 1789873803}
+  - component: {fileID: 1789873805}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -5229,11 +5230,44 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789873805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789873802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3597519b15b6fe458de2681e67dd8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackgroundRandomizer
+  backgroundRenderer: {fileID: 0}
+  targetCamera: {fileID: 1615992973}
+  backgrounds:
+  - {fileID: 21300000, guid: 9bc6947920caf2740918a9f19c82ce96, type: 3}
+  - {fileID: 21300000, guid: 4de0e839f13fe3e42a20a692f685dd70, type: 3}
+  - {fileID: 21300000, guid: c6d33b4e95af1d74891f66d560befa68, type: 3}
+  - {fileID: 21300000, guid: b10c0e6536d1baf4c9c851e471f26048, type: 3}
+  - {fileID: 21300000, guid: 6309213b53d00614793a534337ae9396, type: 3}
+  - {fileID: 21300000, guid: 87d95ea918ad04d4e9b45fc4573e843e, type: 3}
+  - {fileID: 21300000, guid: c5b7be7bfd5c9d74fbb53c09801af463, type: 3}
+  - {fileID: 21300000, guid: e4a271d722322b244b4c65ee0023f8f4, type: 3}
+  - {fileID: 21300000, guid: bb8ecad27aacfe44eb82e66955c99bbd, type: 3}
+  - {fileID: 21300000, guid: 2eb4ec7e306d45a4bb4a3731df6e814c, type: 3}
+  - {fileID: 21300000, guid: 2f238859ef0a8c8449494f8afea634bb, type: 3}
+  - {fileID: 21300000, guid: 6747865bfc36f6c4682a1ebbfad14a24, type: 3}
+  - {fileID: 21300000, guid: ecd847407d63f094990238c4e8ca01ca, type: 3}
+  - {fileID: 21300000, guid: d4d395b0791ee5842a059a49a9374a88, type: 3}
+  - {fileID: 21300000, guid: 0ce0211ee72704341a89511e384080fc, type: 3}
+  - {fileID: 21300000, guid: 8851820e1e4049949a37b913a0eb507a, type: 3}
+  - {fileID: 21300000, guid: 6f8056ff0fae83b4c9f5239c34fa06db, type: 3}
+  avoidImmediateRepeat: 1
 --- !u!1 &1836514061
 GameObject:
   m_ObjectHideFlags: 0

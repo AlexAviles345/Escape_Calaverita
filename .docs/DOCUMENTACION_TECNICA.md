@@ -6,7 +6,7 @@
 
 **Escape Calaverita** es un juego 2D inspirado en *Flappy Bird*. El jugador controla una calaverita que debe atravesar huecos entre lápidas que avanzan de derecha a izquierda.
 
-Incluye un menú, selector con 11 skins persistentes, pantalla de espera, HUD, pausa, Game Over, 22 combinaciones de obstáculos, dificultad progresiva, récord persistente, entrada para teclado/ratón/toque, música y efectos de muerte.
+Incluye un menú, selector con 11 skins persistentes, 17 fondos seleccionados aleatoriamente, pantalla de espera, HUD, pausa, Game Over, 22 combinaciones de obstáculos, dificultad progresiva, récord persistente, entrada para teclado/ratón/toque, música y efectos de muerte.
 
 ## 2. Requisitos y configuración
 
@@ -36,6 +36,8 @@ flowchart TD
     Game --> GM[GameManager]
     Game --> Player[PlayerMovement]
     Game --> PlayerSkin[PlayerSkin]
+    Game --> BackgroundRandomizer[BackgroundRandomizer]
+    BackgroundRandomizer --> Backgrounds[17 fondos]
     Game --> Spawner[LapidaSpawner]
     PlayerSkin --> Catalog
     PlayerSkin --> SkinPrefs
@@ -54,16 +56,17 @@ Las dependencias se resuelven con referencias del Inspector, `GameManager.Instan
 2. `MainMenu.Awake()` conecta navegación y muestra `MenuPrincipal`.
 3. `SkinSelector.Awake()` carga `SelectedSkin`, actualiza la vista previa y conecta anterior/siguiente.
 4. **Jugar** carga `Game`.
-5. `GameManager.Awake()` recupera el récord, restaura el tiempo y configura paneles.
-6. `PlayerSkin.Awake()` aplica y normaliza la skin seleccionada.
-7. `PlayerMovement.Awake()` reduce la hitbox, desactiva temporalmente la física y limpia partículas.
-8. `LapidaSpawner.Start()` crea un obstáculo inmediato, quieto hasta comenzar.
-9. La primera acción oculta `StartPanel`, muestra el HUD, activa la física y salta.
-10. Escape, `P` o Start del mando abren/cierra `PausePanel`; Reanudar continúa y Menú vuelve a la escena principal.
-11. Los obstáculos avanzan; al pasar la X del jugador suman un punto.
-12. Colisionar o salir verticalmente de la cámara provoca la muerte.
-13. Se ocultan sprite/collider, se reproducen efectos, aparece Game Over y el tiempo se pausa.
-14. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga la escena y vuelve a mostrar `StartPanel`; Menú vuelve a `Menu`.
+5. `BackgroundRandomizer.Awake()` escoge uno de los 17 fondos, evita repetir inmediatamente el anterior y lo ajusta proporcionalmente a la cámara.
+6. `GameManager.Awake()` recupera el récord, restaura el tiempo y configura paneles.
+7. `PlayerSkin.Awake()` aplica y normaliza la skin seleccionada.
+8. `PlayerMovement.Awake()` reduce la hitbox, desactiva temporalmente la física y limpia partículas.
+9. `LapidaSpawner.Start()` crea un obstáculo inmediato, quieto hasta comenzar.
+10. La primera acción oculta `StartPanel`, muestra el HUD, activa la física y salta.
+11. Escape, `P` o Start del mando abren/cierra `PausePanel`; Reanudar continúa y Menú vuelve a la escena principal.
+12. Los obstáculos avanzan; al pasar la X del jugador suman un punto.
+13. Colisionar o salir verticalmente de la cámara provoca la muerte.
+14. Se ocultan sprite/collider, se reproducen efectos, aparece Game Over y el tiempo se pausa.
+15. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga la escena, elige un fondo nuevo y vuelve a mostrar `StartPanel`; Menú vuelve a `Menu`.
 
 ## 5. Escenas
 
@@ -144,7 +147,7 @@ Game
 | Objeto | Función/configuración |
 | --- | --- |
 | `Main Camera` | Ortográfica, tamaño `5`, posición `(0,0,-10)`. Define límites, spawn y despawn. |
-| `Background` | `fondo.jpg`, escala `(4,3,1)`. |
+| `Background` | SpriteRenderer en orden `-10`, posición cero y escala base `(1,1,1)`. `BackgroundRandomizer` elige entre 17 sprites y sustituye la escala por un valor uniforme que cubre la cámara sin deformar la imagen. |
 | `Player` | Posición `(-3.63,0.32,0)`, escala `0.1444`, Rigidbody2D, PolygonCollider2D, movimiento y skin. |
 | `PlayerVisual` | Hijo con SpriteRenderer; se escala sin afectar el collider del padre. |
 | `SpawnPoint` | `(12.87,-3.48,0)`; solo se consulta su X y puede limitarse por la cámara. |
@@ -275,6 +278,16 @@ En `Awake()` conecta botones, lee y limita `SelectedSkin`, y refresca sin volver
 
 Localiza el SpriteRenderer hijo si falta la referencia, conserva su escala original y aplica la preferencia. Asigna sprite, calcula escala relativa al ancho de la primera skin y multiplica X/Y del hijo. El Player, Rigidbody y collider no cambian. También corrige PlayerPrefs si el índice guardado dejó de existir.
 
+### 6.9 `BackgroundRandomizer.cs`
+
+Componente del objeto `Background` de Game. Requiere un `SpriteRenderer` y contiene las referencias a la cámara y a los 17 fondos disponibles.
+
+- `Awake()` obtiene el renderer local si no fue asignado, usa `Camera.main` como respaldo, selecciona el fondo y lo ajusta a la vista.
+- `SelectRandomBackground()` usa `Random.Range`. El índice anterior es estático, por lo que `avoidImmediateRepeat` impide repetir el mismo fondo al recargar Game dentro de la misma ejecución.
+- `FitBackgroundToCamera()` calcula el ancho y alto visibles de la cámara ortográfica. Usa el mayor cociente entre cámara y sprite para aplicar una escala X/Y uniforme tipo *cover*: nunca deja bordes vacíos y recorta solamente el excedente.
+- `LateUpdate()` repite el ajuste si cambia la resolución de la ventana.
+- La selección es visual y no modifica skin, columnas, hitboxes, dificultad ni puntuación.
+
 ## 7. Skins
 
 | # | Nombre | Archivo | Resolución |
@@ -292,6 +305,50 @@ Localiza el SpriteRenderer hijo si falta la referencia, conserva su escala origi
 | 10 | CALAVERITA CATRINA | `calaverita_catrina.png` | 514×442 |
 
 Están en `Assets/_Project/Art/Characters/Skins`, Sprite Single, 100 PPU y filtro Point. Para agregar otra: importar PNG transparente, configurar igual, aumentar el arreglo de `SkinCatalog.asset`, llenar nombre/sprite y conservar la clásica en índice 0 si debe seguir siendo referencia.
+
+### 7.1 Escenarios disponibles
+
+Los fondos están en `Assets/_Project/Art/Backgrounds`. Game contiene 17 referencias activas en `BackgroundRandomizer`; la primera es el JPG original y las otras 16 son PNG temáticos.
+
+| # | Escenario | Archivo | Resolución |
+| ---: | --- | --- | ---: |
+| 0 | Cementerio original | `fondo.jpg` | 640×400 |
+| 1 | Arena de lucha libre abandonada | `arena_lucha_libre_abandonada.png` | 1027×567 |
+| 2 | Bosque embrujado de cempasúchil | `bosque_embrujado_cempasúchil.png` | 1090×573 |
+| 3 | Cementerio de cempasúchil | `cementerio_cempasúchil.png` | 1023×559 |
+| 4 | Cementerio congelado | `cementerio_congelado.png` | 1022×572 |
+| 5 | Noche celestial mexicana | `noche_celestial_mexicana.png` | 1023×574 |
+| 6 | Pueblo mexicano revolucionario | `pueblo_mexicano_revolucionario.png` | 1026×566 |
+| 7 | Reino de dulces de Día de Muertos | `reino_de_dulces_dia_de_muertos.png` | 1024×573 |
+| 8 | Ruinas de templo azteca nocturno | `ruinas_templo_azteca_nocturno.png` | 1023×572 |
+| 9 | Canales embrujados de Xochimilco | `canales_embrujados_xochimilco.png` | 1013×569 |
+| 10 | Cenote y entrada al Mictlán | `cenote_y_entrada_al_Mictlan.png` | 1016×593 |
+| 11 | Hacienda abandonada del desierto | `hacienda_abandonada_desierto.png` | 1023×572 |
+| 12 | Reino volcánico del Mictlán | `reino_volcanico_mictlan.png` | 1122×632 |
+| 13 | Santuario de mariposas monarca | `santuario_mariposas_monarca.png` | 1026×576 |
+| 14 | Puerto fantasmal de Veracruz | `puerto_fantasmal_veracruz.png` | 1021×568 |
+| 15 | Catedral colonial de las ánimas | `catedral_colonial_de_las_animas.png` | 1042×551 |
+| 16 | Palacio de obsidiana y jade | `palacio_obsidiana_jade.png` | 1023×570 |
+
+Los PNG usan Sprite Single, 100 PPU, filtro Point, Clamp, sRGB, mipmaps desactivados, compresión desactivada y sin forma física. Sus proporciones no son idénticas; el ajuste *cover* del script compensa esa diferencia sin estirarlos. Para fondos opacos se recomienda `Mesh Type: Full Rect`; los actuales están en `Tight`, que no causa huecos porque toda el área es opaca, pero puede cambiarse por consistencia.
+
+### 7.2 Compatibilidad visual recomendada
+
+La elección actual del fondo es completamente aleatoria y no depende de la skin. Esta tabla es una guía artística para pruebas, capturas o una futura selección ponderada.
+
+| Skin | Escenarios que mejor combinan |
+| --- | --- |
+| CALAVERITA CLASICA | Cementerio original, Cementerio de cempasúchil, Pueblo revolucionario, Noche celestial, Hacienda del desierto, Puerto de Veracruz |
+| CALAVERITA DE CEMPASÚCHIL | Cementerio original, Cementerio de cempasúchil, Reino de dulces, Canales de Xochimilco, Santuario monarca |
+| CALAVERITA NOCTURNA | Cementerio original, Bosque embrujado, Cementerio congelado, Noche celestial, Canales de Xochimilco, Cenote del Mictlán, Puerto de Veracruz, Catedral de las ánimas, Palacio de obsidiana |
+| CALAVERITA MARIACHI | Cementerio original, Cementerio de cempasúchil, Pueblo revolucionario, Noche celestial, Hacienda del desierto, Santuario monarca, Puerto de Veracruz, Catedral de las ánimas |
+| CALAVERITA LUCHADORA | Arena de lucha libre, Pueblo revolucionario, Hacienda del desierto, Reino volcánico |
+| CALAVERITA AZTECA | Ruinas del templo azteca, Cenote del Mictlán, Reino volcánico, Palacio de obsidiana y jade |
+| CALAVERITA EMBRUJADA | Bosque embrujado, Ruinas del templo azteca, Canales de Xochimilco, Cenote del Mictlán, Reino volcánico, Catedral de las ánimas, Palacio de obsidiana |
+| CALAVERITA DULCE | Arena de lucha libre, Reino de dulces, Santuario monarca |
+| CALAVERITA REVOLUCIONARIA | Pueblo revolucionario, Arena de lucha libre, Hacienda del desierto, Reino volcánico |
+| CALAVERITA DE HIELO | Cementerio congelado, Noche celestial |
+| CALAVERITA CATRINA | Cementerio original, Cementerio de cempasúchil, Bosque embrujado, Reino de dulces, Noche celestial, Canales de Xochimilco, Santuario monarca, Puerto de Veracruz, Catedral de las ánimas |
 
 ## 8. Obstáculos y prefabs
 
@@ -365,7 +422,7 @@ No hay music manager persistente; cada escena tiene su AudioSource.
 
 ## 13. Assets visuales y fuentes
 
-- `Art/Backgrounds/fondo.jpg`: fondo común, filtrado bilinear.
+- `Art/Backgrounds/`: 17 fondos disponibles. El original es JPG bilinear; los 16 temáticos son PNG Point y se eligen mediante `BackgroundRandomizer`.
 - `Art/UI/Titles/`: títulos de menú, inicio, pausa y Game Over.
 - `Art/UI/Buttons/`: imágenes de los botones del juego.
 - `Art/UI/Frames/skin_preview.png`: marco del selector.
@@ -379,7 +436,7 @@ No hay music manager persistente; cada escena tiene su AudioSource.
 Assets/
 ├── _Project/
 │   ├── Art/
-│   │   ├── Backgrounds/       Fondo del juego
+│   │   ├── Backgrounds/       17 fondos del juego
 │   │   ├── Characters/Skins/  11 skins
 │   │   ├── Obstacles/Lapidas/ 8 pares de obstáculos
 │   │   └── UI/                Buttons, Frames y Titles
@@ -391,7 +448,7 @@ Assets/
 │   └── Scripts/
 │       ├── Core/              GameManager
 │       ├── Data/              SkinCatalog
-│       ├── Gameplay/          Player y Obstacles
+│       ├── Gameplay/          Player, Obstacles y Environment
 │       └── UI/                MainMenu y SkinSelector
 ├── Settings/                  URP, Renderer2D, Input y plantillas
 └── TextMesh Pro/              Recursos TMP
@@ -434,6 +491,16 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 6. Mantener `gapCenterLocal=0` si el hueco está centrado.
 7. Añadir al arreglo del spawner.
 
+### Escenario nuevo
+
+1. Importar una imagen opaca en `Assets/_Project/Art/Backgrounds`.
+2. Configurar Sprite Single, 100 PPU, Point, Clamp, Full Rect, sRGB, sin mipmaps, sin compresión y sin Physics Shape.
+3. Mantener una proporción cercana a 16:9 y una zona central visualmente despejada.
+4. Aumentar el arreglo `Backgrounds` del `BackgroundRandomizer` en la escena Game.
+5. Arrastrar el sprite nuevo al elemento agregado y comprobar que no haya entradas vacías.
+6. Probar 16:9 y una ventana más ancha para comprobar el recorte automático.
+7. Actualizar las secciones 7.1 y 7.2 de este documento.
+
 ### Balance
 
 - Altura aleatoria: `minGapY/maxGapY`.
@@ -445,6 +512,7 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 ## 18. Dependencias y precauciones
 
 - `GameManager` es obligatorio para coordinar Game.
+- `BackgroundRandomizer` requiere el SpriteRenderer de `Background`, una cámara ortográfica y al menos un sprite válido.
 - La primera skin define el ancho de referencia.
 - Todo peligro requiere tag `Obstacle`.
 - Los obstáculos modernos dependen de colliders hijos.
@@ -470,4 +538,6 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 12. Confirmar espera de 0.5 s de botones.
 13. Reintentar: debe reaparecer StartPanel, mantener quieta la calavera y esperar una nueva acción de vuelo.
 14. Volver al menú: skin y récord persisten.
-15. Ejecutar build desde Menu y verificar audio, UI y referencias.
+15. Reintentar varias veces: el fondo no debe repetirse inmediatamente, deformarse ni dejar bordes vacíos.
+16. Cambiar la relación de aspecto del Game View y verificar el reajuste proporcional del fondo.
+17. Ejecutar build desde Menu y verificar audio, UI y referencias.
