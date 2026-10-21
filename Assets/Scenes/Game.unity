@@ -153,8 +153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000095367, y: 137}
-  m_SizeDelta: {x: 460.9955, y: 100}
+  m_AnchoredPosition: {x: -0.000024796, y: 326}
+  m_SizeDelta: {x: 753.339, y: 176.068}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &56529209
 MonoBehaviour:
@@ -178,7 +178,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 38463ba503de4d749ba020ac41512919, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -307,8 +307,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -71}
-  m_SizeDelta: {x: 145.6416, y: 54.6156}
+  m_AnchoredPosition: {x: -7.881, y: -133.87}
+  m_SizeDelta: {x: 396.84, y: 157.705}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &295816509
 MonoBehaviour:
@@ -376,7 +376,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: -4036852491290227624, guid: 9a095775f10b4d54eb49a2f82907cbd7, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -492,12 +492,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -662,7 +662,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -41}
+  m_AnchoredPosition: {x: 0, y: -91}
   m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &698044519
@@ -712,8 +712,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3492,8 +3492,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000030517, y: -170}
-  m_SizeDelta: {x: 280.5995, y: 22.7126}
+  m_AnchoredPosition: {x: -0.000030518, y: -360.01}
+  m_SizeDelta: {x: 607.265, y: 46.046}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &886921039
 MonoBehaviour:
@@ -3542,8 +3542,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3629,8 +3629,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -66.944}
-  m_SizeDelta: {x: 433.5641, y: 133.8887}
+  m_AnchoredPosition: {x: -0.00000047684, y: -139}
+  m_SizeDelta: {x: 755.02, y: 233.157}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &931866529
 MonoBehaviour:
@@ -3790,7 +3790,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!1 &1026060002
@@ -3828,8 +3828,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0, y: -135.1}
-  m_SizeDelta: {x: 126.5865, y: 47.6833}
+  m_AnchoredPosition: {x: -0.000027657, y: -305}
+  m_SizeDelta: {x: 357.367, y: 140.553}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1026060004
 MonoBehaviour:
@@ -3897,7 +3897,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 8953431723046996108, guid: 5266c20b01cdfe94d8303db3a2996919, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -4103,8 +4103,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 18.991, y: 29.800003}
-  m_SizeDelta: {x: 201.6227, y: 32.5255}
+  m_AnchoredPosition: {x: 11, y: 123.16599}
+  m_SizeDelta: {x: 435.831, y: 70.308}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1329952509
 MonoBehaviour:
@@ -4153,7 +4153,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.1
+  m_fontSize: 62.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4240,8 +4240,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -136.5}
-  m_SizeDelta: {x: 372.3869, y: 27.0151}
+  m_AnchoredPosition: {x: -0.000016212, y: -310}
+  m_SizeDelta: {x: 674.772, y: 53.982}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1413993376
 MonoBehaviour:
@@ -4290,8 +4290,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22
-  m_fontSizeBase: 22
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4921,8 +4921,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.0539, y: -11}
-  m_SizeDelta: {x: 136.6942, y: 22.0513}
+  m_AnchoredPosition: {x: 11.000028, y: 33}
+  m_SizeDelta: {x: 295.48, y: 47.667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2139012061
 MonoBehaviour:
@@ -4971,7 +4971,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19.7
+  m_fontSize: 42.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
