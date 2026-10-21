@@ -47,14 +47,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (GameManager.Instance == null || !GameManager.Instance.IsGameStarted) return;
-
-        rb.simulated = true;
-        Jump();
-    }
-
     private void Update()
     {
         GameManager gameManager = GameManager.Instance;

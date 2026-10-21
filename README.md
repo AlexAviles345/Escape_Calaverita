@@ -33,7 +33,7 @@ estructura completa, las convenciones y el procedimiento seguro para mover asset
 - Espacio, flecha arriba, `W`, clic izquierdo o toque: volar.
 - Escape, `P` o Start del mando: pausar o reanudar.
 - Reanudar y Menú también están disponibles en el panel de pausa.
-- Reintentar: inicia una partida nueva inmediatamente.
+- Reintentar: vuelve a la pantalla de preparación; la partida comienza con la siguiente acción de vuelo.
 - Menú: regresa a la escena principal.
 
 ## Archivos versionados

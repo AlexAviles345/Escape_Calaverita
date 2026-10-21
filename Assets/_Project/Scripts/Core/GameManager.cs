@@ -40,7 +40,6 @@ public class GameManager : MonoBehaviour
     private float gameOverTime;
     private const string BestScoreKey = "BestScore";
     private const string MenuSceneName = "Menu";
-    private static bool startImmediatelyAfterReload;
 
     private void Awake()
     {
@@ -54,8 +53,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
         BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
-        IsGameStarted = startImmediatelyAfterReload;
-        startImmediatelyAfterReload = false;
+        IsGameStarted = false;
         ConfigureInterface();
     }
 
@@ -281,7 +279,6 @@ public class GameManager : MonoBehaviour
 
     private static void RestartGame()
     {
-        startImmediatelyAfterReload = true;
         AudioListener.pause = false;
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

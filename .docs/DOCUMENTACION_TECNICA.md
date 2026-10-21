@@ -63,7 +63,7 @@ Las dependencias se resuelven con referencias del Inspector, `GameManager.Instan
 11. Los obstáculos avanzan; al pasar la X del jugador suman un punto.
 12. Colisionar o salir verticalmente de la cámara provoca la muerte.
 13. Se ocultan sprite/collider, se reproducen efectos, aparece Game Over y el tiempo se pausa.
-14. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga e inicia directamente; Menú vuelve a `Menu`.
+14. Tras 0.5 s no escalados se habilitan botones. Reintentar recarga la escena y vuelve a mostrar `StartPanel`; Menú vuelve a `Menu`.
 
 ## 5. Escenas
 
@@ -171,7 +171,7 @@ Administra estado, UI, puntos, récord y escenas.
 
 **Referencias:** inicio/HUD/Game Over y, para pausa, `pausePanel`, `pausePointsText`, `pauseRecordText`, un `pauseButton` opcional, `resumeButton` y `pauseMenuButton`.
 
-**`Awake()`** destruye duplicados, asigna el singleton, fuerza `Time.timeScale = 1`, reactiva el audio, lee `BestScore`, consume `startImmediatelyAfterReload` y configura la interfaz. La bandera estática sobrevive a la recarga de escena y hace que Reintentar omita la pantalla inicial.
+**`Awake()`** destruye duplicados, asigna el singleton, fuerza `Time.timeScale = 1`, reactiva el audio, lee `BestScore`, restablece `IsGameStarted=false` y configura la interfaz. Por ello tanto la entrada normal como Reintentar muestran `StartPanel` y esperan una nueva acción del jugador.
 
 **`StartGame()`** ignora estados inválidos; marca el inicio, oculta StartPanel y muestra HUD.
 
@@ -185,7 +185,7 @@ Administra estado, UI, puntos, récord y escenas.
 
 **`Update()`** espera 0.5 segundos no escalados, habilita botones y permite reiniciar con espacio, Enter o Enter numérico.
 
-**Escenas:** `RestartGame()` activa inicio inmediato y recarga el índice actual; `LoadMainMenu()` restaura el tiempo y carga `Menu`.
+**Escenas:** `RestartGame()` restaura tiempo/audio y recarga el índice actual en estado de preparación; `LoadMainMenu()` restaura el tiempo y carga `Menu`.
 
 ### 6.2 `PlayerMovement.cs`
 
@@ -199,7 +199,7 @@ Controla física, salto, inclinación, límites, hitbox y muerte.
 | `hitboxScale` | `0.78` |
 | `deathSoundVolume` | `0.75` |
 
-`Awake()` obtiene componentes, multiplica todos los puntos del PolygonCollider por `0.78`, almacena cámara/renderer, desactiva `rb.simulated` y limpia la explosión. `Start()` detecta el reintento directo, activa física y salta.
+`Awake()` obtiene componentes, multiplica todos los puntos del PolygonCollider por `0.78`, almacena cámara/renderer, desactiva `rb.simulated` y limpia la explosión. La física permanece desactivada hasta que una acción de vuelo llama `StartGame()`.
 
 En `Update()`, el script termina inmediatamente si existe pausa, evitando saltos mientras el panel está abierto. En juego, una acción inicia si hace falta y llama `Jump()`. El salto **reemplaza** la velocidad Y por `6`; no suma fuerza. La caída se limita con `max(velocityY, -9)`. La velocidad vertical se remapea de `[-9,6]` a una rotación `[-75°,30°]`, interpolada mediante `rotationSpeed`.
 
@@ -468,6 +468,6 @@ Hay paquetes de Animation 2D, Aseprite, PSD Importer, SpriteShape, Tilemap, Visu
 10. Chocar con superior, inferior, Ground y límites.
 11. Revisar explosión, sonido, overlay, puntos y récord.
 12. Confirmar espera de 0.5 s de botones.
-13. Reintentar: inicio directo sin StartPanel.
+13. Reintentar: debe reaparecer StartPanel, mantener quieta la calavera y esperar una nueva acción de vuelo.
 14. Volver al menú: skin y récord persisten.
 15. Ejecutar build desde Menu y verificar audio, UI y referencias.
